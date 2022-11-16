@@ -9,7 +9,7 @@ const createUser = async (name, nickname, password, birth) => {
     err.statusCode = 400;
     throw err;
   }
-  console.log(birth);
+
   const saltRounds = parseInt(process.env.SALT_ROUNDS);
   const hashedPassword = bcrypt.hash(password, saltRounds);
 
