@@ -9,7 +9,7 @@ const signUp = async (req, res, next) => {
       err.statusCode = 400;
       throw err;
     }
-    // validateNickname(nickname);
+    validateNickname(nickname);
     validatePassword(password);
 
     await createUser(name, nickname, password, birth);
