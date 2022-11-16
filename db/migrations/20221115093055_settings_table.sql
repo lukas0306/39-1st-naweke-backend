@@ -111,14 +111,6 @@ CREATE TABLE carts (
   UNIQUE (user_id, product_option_id)
 );
 
-CREATE TABLE `payment` (
-  `id` INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-  `user_id` INT NOT NULL,
-  `product_option_id` INT NOT NULL,
-  `quantity` INT NOT NULL,
-  FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
-  FOREIGN KEY (`product_option_id`) REFERENCES `product_options` (`id`)
-);
 
 -- migrate:down
 DROP TABLE users;
