@@ -3,7 +3,7 @@ CREATE TABLE users (
   id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   name varchar(30) NOT NULL,
   nickname varchar(30) NOT NULL UNIQUE,
-  password varchar(30) NOT NULL,
+  password varchar(100) NOT NULL,
   birth DATETIME NOT NULL,
   created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMP NULL ON UPDATE CURRENT_TIMESTAMP
