@@ -35,6 +35,10 @@ ALTER TABLE `order_items` ADD FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`
 
 ALTER TABLE `product_options_image` ADD FOREIGN KEY (`product_option_id`) REFERENCES `product_options` (`id`);
 
+ALTER TABLE `payment` ADD FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
+
+ALTER TABLE `payment` ADD FOREIGN KEY (`product_option_id`) REFERENCES `product_options` (`id`);
+
 
 -- migrate:down
 
