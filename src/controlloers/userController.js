@@ -1,5 +1,5 @@
 const { validateNickname, validatePassword } = require('../utils/validaters');
-const { createUser } = require('../services/userSevices');
+const { createUser } = require('../services/userService');
 
 const signUp = async (req, res, next) => {
   try {
