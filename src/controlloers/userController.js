@@ -1,4 +1,4 @@
-const { validateEmail, validatePassword } = require('../utils/validaters');
+const { validateNickname, validatePassword } = require('../utils/validaters');
 const { createUser } = require('../services/userSevices');
 
 const signUp = async (req, res, next) => {
@@ -9,7 +9,7 @@ const signUp = async (req, res, next) => {
       err.statusCode = 400;
       throw err;
     }
-    validateEmail(nickname);
+    validateNickname(nickname);
     validatePassword(password);
 
     await createUser(name, nickname, password, birth);

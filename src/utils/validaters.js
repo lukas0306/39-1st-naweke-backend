@@ -1,14 +1,14 @@
-const emailValidate = async (email) => {
+const validateNickname = async (nickname) => {
   const regexp = /^(?=.*\d)(?=.*[a-zA-Z])[0-9a-zA-Z]{8,16}$/;
 
-  if (!regexp.test(email)) {
+  if (!regexp.test(nickname)) {
     const err = new Error('Invalid Email');
     err.statusCode = 400;
     throw err;
   }
 };
 
-const passwordValidate = async (password) => {
+const validatePassword = async (password) => {
   const regexp =
     /^(?=.*[a-zA-z])(?=.*[0-9])(?=.*[$`~!@$!%*#^?&\\(\\)\-_=+]).{8,16}$/;
 
@@ -19,4 +19,4 @@ const passwordValidate = async (password) => {
   }
 };
 
-module.exports = { emailValidate, passwordValidate };
+module.exports = { validateNickname, validatePassword };
