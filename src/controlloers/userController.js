@@ -1,5 +1,6 @@
 const { validateNickname, validatePassword } = require('../utils/validaters');
 const { createUser } = require('../services/userService');
+const { validateUser } = require('../services/userService');
 
 const signUp = async (req, res, next) => {
   try {
@@ -19,4 +20,22 @@ const signUp = async (req, res, next) => {
   }
 };
 
-module.exports = { signUp };
+const logIn = async (req, res, next) => {
+  try {
+    const { nickname, password } = req.body;
+    if (!nickname || !password) {
+      const err = new Error('Input All Information');
+      err.statusCode = 400;
+      throw err;
+    }
+    validateNickname(nickname);
+    validatePassword(password);
+
+    const accessToken = await validateUser(nickname, password);
+    return res.status(200).json({ message: accessToken });
+  } catch (err) {
+    return res.status(err.statusCode || 400).json({ message: err.message });
+  }
+};
+
+module.exports = { signUp, logIn };
