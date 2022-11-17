@@ -12,7 +12,6 @@ const createUser = async (name, nickname, password, birth) => {
 
   const saltRounds = parseInt(process.env.SALT_ROUNDS);
   const hashedPassword = await bcrypt.hash(password, saltRounds);
-  console.log(hashedPassword);
   await userDao.createUser(name, nickname, hashedPassword, birth);
 };
 
@@ -35,7 +34,7 @@ const validateUser = async (nickname, password) => {
   const payLoad = {
     iss: 'admin',
     sub: 'loginJwtToken',
-    exp: now.setDate(now.getDate() + 1),
+    exp: now.setDate(now.getDate() + 30),
     user_id: user.id,
   };
 
