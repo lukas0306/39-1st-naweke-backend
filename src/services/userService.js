@@ -30,17 +30,19 @@ const validateUser = async (nickname, password) => {
     throw err;
   }
 
-  const now = new Date();
-  const payLoad = {
-    iss: 'admin',
-    sub: 'loginJwtToken',
-    exp: now.setDate(now.getDate() + 30),
-    user_id: user.id,
-  };
-
   const secretKey = process.env.SECRET_KEY;
 
-  const accessToken = jwt.sign(payLoad, secretKey);
+  const accessToken = jwt.sign(
+    {
+      data: user.id,
+    },
+    secretKey,
+    {
+      issuer: 'admin',
+      subject: 'accessToken',
+      expiresIn: '30 days',
+    }
+  );
 
   return accessToken;
 };
