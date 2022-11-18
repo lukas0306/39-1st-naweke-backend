@@ -8,12 +8,17 @@ const app = express();
 const { appDataSource } = require('./src/models/dataSource');
 const { routes } = require('./src/routes');
 
+//1
 app.use(express.json());
 app.use(cors());
 app.use(morgan('dev'));
 app.use(routes);
 
-app.get('/ping', (req, res) => {
+const {
+  validateAccessToken,
+} = require('./src/middlewares/validateAccessToken');
+
+app.get('/ping', validateAccessToken, (req, res) => {
   res.json({ message: 'pong' });
 });
 
