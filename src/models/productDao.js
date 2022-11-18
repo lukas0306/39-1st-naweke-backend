@@ -7,7 +7,8 @@ const readProductInfo = async (productId) => {
     p.name,
     p.desc,
     p.thumbnail_image_url,
-    po.price
+    po.price,
+    JSON_ARRAYAGG(po.size_id) size
   FROM products AS p
   LEFT JOIN product_options AS po
     ON p.id = po.product_id
