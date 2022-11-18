@@ -52,7 +52,6 @@ const deleteOrderedItemsInCarts = async (userId) => {
     [userId]
   );
 };
-// todo 1. 재고 줄이는 로직 필요 2. userid 일치 뿐만 아니라, cart와 order_items의 상품 옵션 id도 일치할 때 삭제 되도록 리펙토링 필요.
 
 module.exports = {
   createOrder,
