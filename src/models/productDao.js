@@ -66,6 +66,7 @@ const getAllProducts = async (
       SELECT DISTINCT
          p.id,
          p.name,
+         p.desc,
          po.price,
          p.thumbnail_image_url AS thumbnailUrl,
          mc.name AS mainCategory,
@@ -86,7 +87,7 @@ const getAllProducts = async (
       `
     );
   } catch (err) {
-    const error = new Error(err.message);
+    const error = new Error('INVALID_DATA_INPUT');
     error.statusCode = 500;
     throw error;
   }
