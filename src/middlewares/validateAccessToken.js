@@ -10,7 +10,7 @@ const validateAccessToken = async (req, res, next) => {
     const user = await getUserByUserId(userId);
 
     if (!user) {
-      return res.status(400).json('Invalid AccessToken');
+      return res.status(401).json('Invalid AccessToken');
     }
 
     req.body.userId = userId;
