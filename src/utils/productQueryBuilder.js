@@ -15,8 +15,14 @@ const colorFilterBuilder = (value) => {
   return `po.color_id = '${colorId}'`;
 };
 const sizeFilterBuilder = (value) => {
-  const sizeId = sizeIdSet[value];
-  return `po.size_id = '${sizeId}'`;
+  if (typeof value === 'object') {
+    const sizeId = value.map((el) => sizeIdSet[el]);
+    const sizeIds = sizeId.map((el) => `po.size_id = '${el}'`);
+    return sizeIds.join(' or ');
+  } else {
+    const sizeId = sizeIdSet[value];
+    return `po.size_id = '${sizeId}'`;
+  }
 };
 const priceFilterBuilder = (value) => {
   const changedPrice = priceSet[value];
@@ -33,8 +39,8 @@ const makeProductQueryBuilders = (params) => {
     subCategory: subCategoryFilterBuilder,
     gender: genderFilterBuilder,
     color: colorFilterBuilder,
-    size: sizeFilterBuilder,
     price: priceFilterBuilder,
+    size: sizeFilterBuilder,
   };
 
   const whereClauses = Object.entries(params).map(([key, value]) =>
