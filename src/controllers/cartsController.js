@@ -1,6 +1,8 @@
+const { query } = require('express');
 const {
   addItemToCartsService,
   getCartsService,
+  deleteProductService,
 } = require('../services/cartsService');
 
 const addItemToCartsController = async (req, res) => {
@@ -28,4 +30,21 @@ const getCartsController = async (req, res) => {
   }
 };
 
-module.exports = { addItemToCartsController, getCartsController };
+const deleteProductController = async (req, res) => {
+  const { userId, productOptionId } = req.query;
+  try {
+    const ifDeleted = await deleteProductService(userId, productOptionId);
+    if (!ifDeleted) {
+      return res.status(400).json({ message: 'product is not in carts' });
+    }
+    return res.status(200).json({ message: 'product deleted' });
+  } catch (err) {
+    return res.status(400);
+  }
+};
+
+module.exports = {
+  addItemToCartsController,
+  getCartsController,
+  deleteProductController,
+};

@@ -43,7 +43,7 @@ const insertProduct = async (userId, productOptionId) => {
 const getProduct = async (userId) => {
   const product = await appDataSource.query(
     `
-    SELECT p.name name, p.thumbnail_image_url, po.price, c.name color, s.name size, carts.quantity
+    SELECT p.name name, p.thumbnail_image_url, po.price, c.name color, s.name size, carts.quantity, po.id product_option_id
     FROM carts 
     LEFT JOIN product_options po ON carts.product_option_id = po.id 
     LEFT JOIN products p ON po.product_id = p.id 
@@ -53,8 +53,20 @@ const getProduct = async (userId) => {
     `,
     [userId]
   );
-  console.log(product);
   return product;
+};
+
+const deleteProduct = async (userId, productOptionId) => {
+  const ifDeleted = await appDataSource.query(
+    `
+    DELETE FROM carts 
+    WHERE user_id=?
+    AND
+    product_option_id=?
+    `,
+    [userId, productOptionId]
+  );
+  return ifDeleted.affectedRows;
 };
 
 module.exports = {
@@ -62,4 +74,5 @@ module.exports = {
   selectProdcutOptionId,
   insertProduct,
   getProduct,
+  deleteProduct,
 };
