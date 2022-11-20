@@ -4,10 +4,10 @@ const readProductInfo = async (productId) => {
   const productInfo = await appDataSource.query(
     `
     SELECT
-    p.name,
-    p.desc,
-    p.thumbnail_image_url,
-    po.price,
+    p.name name,
+    p.desc desc,
+    p.thumbnail_image_url image,
+    po.price price,
     JSON_ARRAYAGG(po.size_id) size
   FROM products AS p
   LEFT JOIN product_options AS po
