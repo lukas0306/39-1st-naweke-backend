@@ -1,4 +1,7 @@
-const { addItemToCartsService } = require('../services/cartsService');
+const {
+  addItemToCartsService,
+  getCartsService,
+} = require('../services/cartsService');
 
 const addItemToCartsController = async (req, res) => {
   const { userId, productId, sizeId } = req.body;
@@ -11,8 +14,18 @@ const addItemToCartsController = async (req, res) => {
   } catch (err) {
     return res
       .status(404)
-      .json({ message: 'maybe that size is not defined with this product' });
+      .json({ message: 'maybe that size is not defined with this product..' });
   }
 };
 
-module.exports = { addItemToCartsController };
+const getCartsController = async (req, res) => {
+  const { userId } = req.body;
+  try {
+    const cartInfo = await getCartsService(userId);
+    return res.status(200).json(cartInfo);
+  } catch (err) {
+    return res.status(404);
+  }
+};
+
+module.exports = { addItemToCartsController, getCartsController };

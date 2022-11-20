@@ -2,8 +2,12 @@ const express = require('express');
 
 const cartsRouter = express.Router();
 
-const { addItemToCartsController } = require('../controllers/cartsController');
+const {
+  addItemToCartsController,
+  getCartsController,
+} = require('../controllers/cartsController');
 
 cartsRouter.post('/', addItemToCartsController);
+cartsRouter.get('/', getCartsController);
 
 module.exports = { cartsRouter };
