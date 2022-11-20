@@ -20,6 +20,10 @@ const orderProcess = async (userId, totalPrice) => {
       itemAddedInCarts[i].productOptionId,
       itemAddedInCarts[i].quantity
     );
+    await orderDao.updateStock(
+      itemAddedInCarts[i].productOptionId,
+      itemAddedInCarts[i].quantity
+    );
   }
 
   await orderDao.deleteOrderedItemsInCarts(userId);

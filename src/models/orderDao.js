@@ -53,9 +53,20 @@ const deleteOrderedItemsInCarts = async (userId) => {
   );
 };
 
+const updateStock = async (productOptionId, quantity) => {
+  await appDataSource.query(
+    `
+  UPDATE product_options
+  SET stock = stock - ?
+  WHERE id = ?`,
+    [quantity, productOptionId]
+  );
+};
+
 module.exports = {
   createOrder,
   createOrderItems,
   deleteOrderedItemsInCarts,
   getCarts,
+  updateStock,
 };
