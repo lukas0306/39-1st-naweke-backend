@@ -9,5 +9,6 @@ const {
 
 cartsRouter.post('/', addItemToCartsController);
 cartsRouter.get('/', getCartsController);
+cartsRouter.delete('/delete', getCartsController);
 
 module.exports = { cartsRouter };

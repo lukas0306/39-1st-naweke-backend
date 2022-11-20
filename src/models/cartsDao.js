@@ -43,7 +43,7 @@ const insertProduct = async (userId, productOptionId) => {
 const getProduct = async (userId) => {
   const product = await appDataSource.query(
     `
-    SELECT p.name name, p.thumbnail_image_url, po.price, c.name color, s.name size, carts.quantity 
+    SELECT p.name name, p.thumbnail_image_url, po.price, c.name color, s.name size, carts.quantity
     FROM carts 
     LEFT JOIN product_options po ON carts.product_option_id = po.id 
     LEFT JOIN products p ON po.product_id = p.id 
