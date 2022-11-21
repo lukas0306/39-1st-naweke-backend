@@ -13,10 +13,6 @@ app.use(cors());
 app.use(morgan('dev'));
 app.use(routes);
 
-const {
-  validateAccessToken,
-} = require('./src/middlewares/validateAccessToken');
-
 app.get('/ping', (req, res) => {
   res.json({ message: 'pong' });
 });

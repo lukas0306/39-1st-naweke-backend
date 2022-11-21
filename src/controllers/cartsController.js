@@ -1,7 +1,8 @@
 const { addItemToCartsService } = require('../services/cartsService');
 
 const addItemToCartsController = async (req, res) => {
-  const { userId, productId, sizeId } = req.body;
+  const { productId, sizeId } = req.body;
+  const { userId } = req.decoded;
   try {
     const ifAdded = await addItemToCartsService(userId, productId, sizeId);
     if (ifAdded) {
