@@ -6,6 +6,7 @@ const readOrderList = async (userId) => {
     o.id orderId,
     o.order_status_id orderStatusId,
     o.total_price totalPrice,
+    o.created_at createdAt,
       JSON_ARRAYAGG(
       JSON_OBJECT(
       "productName", p.name,
