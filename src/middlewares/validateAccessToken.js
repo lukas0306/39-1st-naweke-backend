@@ -7,13 +7,13 @@ const validateAccessToken = async (req, res, next) => {
     const secretKey = process.env.SECRET_KEY;
     const payLoad = jwt.verify(accessToken, secretKey);
     const userId = payLoad.data;
-    const user = await getUserByUserId(userId);
+    const [user] = await getUserByUserId(userId);
 
     if (!user) {
       return res.status(401).json('Invalid AccessToken');
     }
 
-    req.body.userId = userId;
+    req.decoded = userId;
 
     next();
   } catch (err) {
