@@ -47,7 +47,6 @@ const getProductList = async (params) => {
       throw err;
     }
   }
-
   const sortProducts = (sort) => {
     const sortSet = {
       rec: 'l.product_id',

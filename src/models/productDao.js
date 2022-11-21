@@ -13,8 +13,7 @@ const getProductList = async (builders, sort) => {
         mc.name AS mainCategory,
         sc.name AS subCategory,
         p.created_at,
-        l.product_id AS recommend,
-        po.size_id
+        l.product_id AS recommend
       FROM products AS p
       INNER JOIN product_options po ON p.id = po.product_id
       INNER JOIN colors AS c ON c.id = po.color_id

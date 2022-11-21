@@ -47,7 +47,7 @@ const makeProductQueryBuilders = (params) => {
     builderSet[key](value)
   );
 
-  return `WHERE ${whereClauses.join(' AND ')}`;
+  return whereClauses.length !== 0 ? `WHERE ${whereClauses.join(' AND ')}` : ``;
 };
 
 module.exports = { makeProductQueryBuilders };
