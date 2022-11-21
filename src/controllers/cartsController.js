@@ -2,7 +2,7 @@ const { addItemToCartsService } = require('../services/cartsService');
 
 const addItemToCartsController = async (req, res) => {
   const { productId, sizeId } = req.body;
-  const { userId } = req.decoded;
+  const userId = req.decoded;
   try {
     const ifAdded = await addItemToCartsService(userId, productId, sizeId);
     if (ifAdded) {
@@ -10,9 +10,7 @@ const addItemToCartsController = async (req, res) => {
     }
     return res.status(201).json({ message: 'product quantity added' });
   } catch (err) {
-    return res
-      .status(404)
-      .json({ message: 'maybe that size is not defined with this product' });
+    return res.status(err.statusCode || 500).json({ message: err.message });
   }
 };
 
