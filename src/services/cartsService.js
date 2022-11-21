@@ -23,6 +23,7 @@ const getCartsService = async (userId) => {
 };
 
 const deleteProductService = async (userId, productOptionId) => {
+  console.log(productOptionId);
   const ifDeleted = await deleteProduct(userId, productOptionId);
   if (ifDeleted == 0) {
     return false;

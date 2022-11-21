@@ -1,4 +1,3 @@
-const { query } = require('express');
 const {
   addItemToCartsService,
   getCartsService,
@@ -31,7 +30,7 @@ const getCartsController = async (req, res) => {
 };
 
 const deleteProductController = async (req, res) => {
-  const { userId, productOptionId } = req.query;
+  const { productOptionId, userId } = req.query;
   try {
     const ifDeleted = await deleteProductService(userId, productOptionId);
     if (!ifDeleted) {
