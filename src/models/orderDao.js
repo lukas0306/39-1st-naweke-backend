@@ -26,22 +26,8 @@ const createOrder = async (userId, orderStatusId, totalPrice) => {
   );
 };
 
-const createOrderItems = async (
-  orderId,
-  orderItemStatusId,
-  productOptionId,
-  quantity
-) => {
-  await appDataSource.query(
-    `INSERT INTO order_items(
-      order_id,
-      order_item_status_id,
-      product_option_id,
-      quantity
-    ) VALUES ( ?, ?, ?, ?)
-    `,
-    [orderId, orderItemStatusId, productOptionId, quantity]
-  );
+const createOrderItems = async (createOrderItemQuery) => {
+  await appDataSource.query(`${createOrderItemQuery}`);
 };
 
 const deleteOrderedItemsInCarts = async (userId) => {
@@ -53,14 +39,8 @@ const deleteOrderedItemsInCarts = async (userId) => {
   );
 };
 
-const updateStock = async (productOptionId, quantity) => {
-  await appDataSource.query(
-    `
-  UPDATE product_options
-  SET stock = stock - ?
-  WHERE id = ?`,
-    [quantity, productOptionId]
-  );
+const updateStock = async (updateStockQuery) => {
+  await appDataSource.query(`${updateStockQuery}`);
 };
 
 module.exports = {

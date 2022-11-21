@@ -23,19 +23,36 @@ const orderProcess = async (userId, totalPrice) => {
 
   const itemAddedInCarts = await orderDao.getCarts(userId);
 
-  for (let i = 0; i < itemAddedInCarts.length; i++) {
-    await orderDao.createOrderItems(
-      createdOrder.insertId,
-      orderItemStatus.DELIVERYCOMPLETED,
-      itemAddedInCarts[i].productOptionId,
-      itemAddedInCarts[i].quantity
-    );
-    await orderDao.updateStock(
-      itemAddedInCarts[i].productOptionId,
-      itemAddedInCarts[i].quantity
-    );
-  }
+  let updateStockQuery = `UPDATE product_options
+  SET stock = (CASE id`;
 
+  let updateStockQuery2 = ` END) WHERE id IN (`;
+  let queryCloser = `) `;
+
+  let createOrderItemQuery = `INSERT INTO order_items(order_id, order_item_status_id, product_option_id, quantity) VALUES `;
+
+  for (let i = 0; i < itemAddedInCarts.length; i++) {
+    let updateStockQuery1 = `WHEN ${itemAddedInCarts[i].productOptionId} THEN stock - ${itemAddedInCarts[i].quantity}`;
+    let updateStockQuery3 = `${itemAddedInCarts[i].productOptionId}`;
+
+    updateStockQuery += ` ${updateStockQuery1}`;
+    updateStockQuery2 += `${updateStockQuery3}`;
+    if (i < itemAddedInCarts.length - 1) {
+      updateStockQuery2 += ` ,`;
+    }
+    if (i === itemAddedInCarts.length - 1) {
+      updateStockQuery += updateStockQuery2 + queryCloser;
+    }
+
+    createOrderItemQuery += `(${createdOrder.insertId}, ${orderItemStatus.DELIVERYCOMPLETED}, ${itemAddedInCarts[i].productOptionId}, ${itemAddedInCarts[i].quantity})`;
+
+    if (i < itemAddedInCarts.length - 1) {
+      createOrderItemQuery += `, `;
+    }
+  }
+  console.log(updateStockQuery, createOrderItemQuery);
+  await orderDao.updateStock(updateStockQuery);
+  await orderDao.createOrderItems(createOrderItemQuery);
   await orderDao.deleteOrderedItemsInCarts(userId);
 };
 
