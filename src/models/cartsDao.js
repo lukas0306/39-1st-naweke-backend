@@ -40,4 +40,21 @@ const insertProduct = async (userId, productOptionId) => {
   );
 };
 
-module.exports = { checkIfSameProduct, selectProdcutOptionId, insertProduct };
+const addQuantity = async (userId, productOptionId) => {
+  await appDataSource.query(
+    `UPDATE carts 
+    SET quantity = quantity + 1 
+    WHERE user_id = ? 
+    AND 
+    product_option_id = ?;
+    `,
+    [userId, productOptionId]
+  );
+};
+
+module.exports = {
+  checkIfSameProduct,
+  selectProdcutOptionId,
+  insertProduct,
+  addQuantity,
+};

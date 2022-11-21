@@ -7,7 +7,7 @@ const addItemToCartsController = async (req, res) => {
     if (ifAdded) {
       return res.status(201).json({ message: 'product is added in carts' });
     }
-    return res.status(400).json({ message: 'product is already in carts' });
+    return res.status(201).json({ message: 'product quantity added' });
   } catch (err) {
     return res
       .status(404)
