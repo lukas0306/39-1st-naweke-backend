@@ -9,7 +9,6 @@ const {
 
 const getProductList = async (params) => {
   const { sort, ...rest } = params;
-  console.log(rest);
   if (rest.color) {
     if (!Object.keys(colorIdSet).includes(rest.color)) {
       const err = new Error('INVALID COLOR INPUT');
@@ -17,13 +16,22 @@ const getProductList = async (params) => {
       throw err;
     }
   }
-  // if (rest.size) {
-  //   if (!Object.keys(sizeIdSet).includes(rest.size)) {
-  //     const err = new Error('INVALID SIZE INPUT');
-  //     err.statusCode = 400;
-  //     throw err;
-  //   }
-  // }
+
+  if (typeof rest.size === 'string') {
+    if (!Object.keys(sizeIdSet).includes(rest.size)) {
+      const err = new Error('INVALID SIZE INPUT');
+      err.statusCode = 400;
+      throw err;
+    }
+  } else if (typeof rest.size === 'object') {
+    const checkSize = rest.size.map((el) => sizeIdSet[el]);
+    if (checkSize.includes(undefined)) {
+      const err = new Error('INVALID SIZE INPUT');
+      err.statusCode = 400;
+      throw err;
+    }
+  }
+
   if (rest.price) {
     if (!Object.keys(priceSet).includes(rest.price)) {
       const err = new Error('INVALID PRICE INPUT');
