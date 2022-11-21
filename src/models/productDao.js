@@ -34,4 +34,3 @@ const readProductInfo = async (productId) => {
 };
 
 module.exports = { readProductInfo };
-// p.desc desc,
