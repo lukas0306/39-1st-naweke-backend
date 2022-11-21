@@ -1,22 +1,32 @@
 const orderDao = require('../models/orderDao');
 
 const orderProcess = async (userId, totalPrice) => {
-  const orderStatusId = 1;
+  const orderStatus = {
+    COMPLETED: 1,
+    CANCELLED: 2,
+  };
+
+  const orderItemStatus = {
+    DELIVERYPREPARE: 1,
+    ONDELIVERY: 2,
+    DELIVERYCOMPLETED: 3,
+  };
+
+  Object.freeze(orderStatus);
+  Object.freeze(orderItemStatus);
 
   const createdOrder = await orderDao.createOrder(
     userId,
-    orderStatusId,
+    orderStatus.COMPLETED,
     totalPrice
   );
 
   const itemAddedInCarts = await orderDao.getCarts(userId);
 
-  const orderItemStatusId = 3;
-
   for (let i = 0; i < itemAddedInCarts.length; i++) {
     await orderDao.createOrderItems(
       createdOrder.insertId,
-      orderItemStatusId,
+      orderItemStatus.DELIVERYCOMPLETED,
       itemAddedInCarts[i].productOptionId,
       itemAddedInCarts[i].quantity
     );
