@@ -19,9 +19,9 @@ const addItemToCartsController = async (req, res) => {
 };
 
 const getCartsController = async (req, res) => {
-  const { userId } = req.body;
+  const { user_id } = req.headers;
   try {
-    const cartInfo = await getCartsService(userId);
+    const cartInfo = await getCartsService(user_id);
     return res.status(200).json(cartInfo);
   } catch (err) {
     return res.status(404);

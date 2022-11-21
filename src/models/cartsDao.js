@@ -53,7 +53,6 @@ const getProduct = async (userId) => {
     `,
     [userId]
   );
-  console.log(product);
   return product;
 };
 
