@@ -4,7 +4,7 @@ const readOrderList = async (userId) => {
   const orderList = await appDataSource.query(
     `SELECT
     o.id orderId,
-    o.order_status_id orderStatusId,
+    o.order_status_id orderStatus,
     o.total_price totalPrice,
     o.created_at createdAt,
       JSON_ARRAYAGG(
@@ -13,6 +13,7 @@ const readOrderList = async (userId) => {
       "quantity", oi.quantity,
       "orderItemStatus", oi.order_item_status_id,
       "productOptionId", oi.product_option_id,
+      "price", po.price,
       "thumbnailImage", p.thumbnail_image_url
     )) orderProduct
     FROM orders o
