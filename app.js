@@ -13,10 +13,6 @@ app.use(cors());
 app.use(morgan('dev'));
 app.use(routes);
 
-const {
-  validateAccessToken,
-} = require('./src/middlewares/validateAccessToken');
-
 app.get('/ping', (req, res) => {
   res.json({ message: 'pong' });
 });
@@ -34,7 +30,9 @@ const start = async () => {
       appDataSource.destroy();
     });
 
-  app.listen(PORT, () => console.log(`server is listening on ${PORT}`));
+  app.listen(PORT, () =>
+    console.log(`server is listening on http://localhost:${PORT}`)
+  );
 };
 
 start();
