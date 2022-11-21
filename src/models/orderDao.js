@@ -1,7 +1,7 @@
 const { appDataSource } = require('./dataSource');
 
 const readOrderList = async (userId) => {
-  const orderList = await appDataSource.query(
+  const [orderList] = await appDataSource.query(
     `SELECT
     o.id,
     o.order_status_id,
