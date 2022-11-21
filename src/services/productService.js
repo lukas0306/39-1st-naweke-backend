@@ -60,4 +60,8 @@ const getProductList = async (params) => {
   return await productDao.getProductList(builders, sortProducts(sort));
 };
 
-module.exports = { getProductList };
+const readProductInfo = async (productId) => {
+  return await productDao.readProductInfo(productId);
+};
+
+module.exports = { getProductList, readProductInfo };
