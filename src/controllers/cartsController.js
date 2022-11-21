@@ -19,9 +19,10 @@ const addItemToCartsController = async (req, res) => {
 };
 
 const getCartsController = async (req, res) => {
-  const { userId } = req.body;
+  // const userId = req.decoded;
+  const { user_id } = req.headers;
   try {
-    const cartInfo = await getCartsService(userId);
+    const cartInfo = await getCartsService(user_id);
     return res.status(200).json(cartInfo);
   } catch (err) {
     return res.status(404);
@@ -29,7 +30,8 @@ const getCartsController = async (req, res) => {
 };
 
 const deleteProductController = async (req, res) => {
-  const { productOptionId, userId } = req.query;
+  const { productOptionId } = req.query;
+  const userId = req.decoded;
   try {
     const ifDeleted = await deleteProductService(userId, productOptionId);
     if (!ifDeleted) {
