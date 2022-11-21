@@ -6,8 +6,9 @@ const {
   addItemToCartsController,
   getCartsController,
 } = require('../controllers/cartsController');
+const { validateAccessToken } = require('../middlewares/validateAccessToken');
 
-cartsRouter.post('/', addItemToCartsController);
 cartsRouter.get('/', getCartsController);
+cartsRouter.post('/', validateAccessToken, addItemToCartsController);
 
 module.exports = { cartsRouter };

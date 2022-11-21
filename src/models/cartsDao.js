@@ -40,6 +40,18 @@ const insertProduct = async (userId, productOptionId) => {
   );
 };
 
+const addQuantity = async (userId, productOptionId) => {
+  await appDataSource.query(
+    `UPDATE carts 
+    SET quantity = quantity + 1 
+    WHERE user_id = ? 
+    AND 
+    product_option_id = ?;
+    `,
+    [userId, productOptionId]
+  );
+};
+
 const getProduct = async (userId) => {
   const product = await appDataSource.query(
     `
@@ -61,4 +73,5 @@ module.exports = {
   selectProdcutOptionId,
   insertProduct,
   getProduct,
+  addQuantity,
 };
