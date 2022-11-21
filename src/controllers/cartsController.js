@@ -5,17 +5,16 @@ const {
 } = require('../services/cartsService');
 
 const addItemToCartsController = async (req, res) => {
-  const { userId, productId, sizeId } = req.body;
+  const { productId, sizeId } = req.body;
+  const userId = req.decoded;
   try {
     const ifAdded = await addItemToCartsService(userId, productId, sizeId);
     if (ifAdded) {
       return res.status(201).json({ message: 'product is added in carts' });
     }
-    return res.status(400).json({ message: 'product is already in carts' });
+    return res.status(201).json({ message: 'product quantity added' });
   } catch (err) {
-    return res
-      .status(404)
-      .json({ message: 'maybe that size is not defined with this product..' });
+    return res.status(err.statusCode || 500).json({ message: err.message });
   }
 };
 

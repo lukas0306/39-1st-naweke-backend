@@ -69,10 +69,23 @@ const deleteProduct = async (userId, productOptionId) => {
   return ifDeleted.affectedRows;
 };
 
+const addQuantity = async (userId, productOptionId) => {
+  await appDataSource.query(
+    `UPDATE carts 
+    SET quantity = quantity + 1 
+    WHERE user_id = ? 
+    AND 
+    product_option_id = ?;
+    `,
+    [userId, productOptionId]
+  );
+};
+
 module.exports = {
   checkIfSameProduct,
   selectProdcutOptionId,
   insertProduct,
   getProduct,
   deleteProduct,
+  addQuantity,
 };
