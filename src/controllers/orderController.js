@@ -1,5 +1,7 @@
 const { readOrderList } = require('../services/orderService');
 
+const { createOrder } = require('../services/orderService');
+
 const getOrderList = async (req, res, next) => {
   try {
     const userId = req.decoded;
@@ -10,13 +12,11 @@ const getOrderList = async (req, res, next) => {
   }
 };
 
-const { orderProcess } = require('../services/orderService');
-
 const addOrder = async (req, res, next) => {
   try {
     const userId = req.decoded;
     const [totalPrice, ...orderArr] = req.body;
-    await orderProcess(userId, orderArr, totalPrice.totalPrice);
+    await createOrder(userId, orderArr, totalPrice.totalPrice);
     return res.status(201).json({ message: 'order Created' });
   } catch (err) {
     return res.status(err.statusCode || 400).json({ message: err.message });
