@@ -1,4 +1,5 @@
 const { readProductInfo } = require('../services/productService');
+const productService = require('../services/productService');
 
 const loadProductInfo = async (req, res, next) => {
   try {
