@@ -12,7 +12,7 @@ const createUser = async (name, nickname, password, birth) => {
 
   const saltRounds = parseInt(process.env.SALT_ROUNDS);
   const hashedPassword = await bcrypt.hash(password, saltRounds);
-  await userDao.createUser(name, nickname, hashedPassword, birth);
+  return await userDao.createUser(name, nickname, hashedPassword, birth);
 };
 
 const validateUser = async (nickname, password) => {
@@ -31,7 +31,6 @@ const validateUser = async (nickname, password) => {
   }
 
   const secretKey = process.env.SECRET_KEY;
-
   const accessToken = jwt.sign(
     {
       data: user.id,
