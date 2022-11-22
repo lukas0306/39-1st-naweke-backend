@@ -30,10 +30,10 @@ const getCartsController = async (req, res) => {
 
 const deleteProductController = async (req, res) => {
   const { product_option_id } = req.query;
-  const user_id = req.decoded;
+  const userId = req.decoded;
   try {
     for (const ele of product_option_id) {
-      await deleteProductService(user_id, Number(ele));
+      await deleteProductService(userId, Number(ele));
     }
     return res.status(200).json({ message: 'product deleted' });
   } catch (err) {
