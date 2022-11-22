@@ -2,6 +2,7 @@ const {
   selectProdcutOptionId,
   checkIfSameProduct,
   insertProduct,
+  getCarts,
   addQuantity,
 } = require('../models/cartsDao');
 
@@ -19,4 +20,8 @@ const addItemToCartsService = async (userId, productId, sizeId) => {
   return false;
 };
 
-module.exports = { addItemToCartsService };
+const getCartsService = async (userId) => {
+  return await getCarts(userId);
+};
+
+module.exports = { addItemToCartsService, getCartsService };

@@ -52,9 +52,26 @@ const addQuantity = async (userId, productOptionId) => {
   );
 };
 
+const getCarts = async (userId) => {
+  const product = await appDataSource.query(
+    `
+    SELECT p.name productName, p.thumbnail_image_url thumbnailImageUrl, po.price, c.name colorName, s.name sizeName, carts.quantity, po.id productOptionId
+    FROM carts 
+    LEFT JOIN product_options po ON carts.product_option_id = po.id 
+    LEFT JOIN products p ON po.product_id = p.id 
+    LEFT JOIN colors c ON po.color_id = c.id 
+    LEFT JOIN sizes s ON po.size_id = s.id 
+    WHERE user_id = ?
+    `,
+    [userId]
+  );
+  return product;
+};
+
 module.exports = {
   checkIfSameProduct,
   selectProdcutOptionId,
   insertProduct,
+  getCarts,
   addQuantity,
 };
