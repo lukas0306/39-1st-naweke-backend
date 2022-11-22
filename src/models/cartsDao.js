@@ -52,7 +52,7 @@ const addQuantity = async (userId, productOptionId) => {
   );
 };
 
-const getProduct = async (userId) => {
+const getCarts = async (userId) => {
   const product = await appDataSource.query(
     `
     SELECT p.name name, p.thumbnail_image_url, po.price, c.name color, s.name size, carts.quantity, po.id product_option_id
@@ -72,6 +72,6 @@ module.exports = {
   checkIfSameProduct,
   selectProdcutOptionId,
   insertProduct,
-  getProduct,
+  getCarts,
   addQuantity,
 };
