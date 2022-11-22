@@ -1,5 +1,6 @@
 const productDao = require('../models/productDao');
 const { makeProductQueryBuilders } = require('../utils/productQueryBuilder');
+const { raiseCustomError } = require('../utils/raiseCustomError');
 const {
   colorIdSet,
   sizeIdSet,
@@ -11,40 +12,30 @@ const getProductList = async (params) => {
   const { sort, ...rest } = params;
   if (rest.color) {
     if (!Object.keys(colorIdSet).includes(rest.color)) {
-      const err = new Error('INVALID COLOR INPUT');
-      err.statusCode = 400;
-      throw err;
+      raiseCustomError('INVALID COLOR INPUT', 400);
     }
   }
 
   if (typeof rest.size === 'string') {
     if (!Object.keys(sizeIdSet).includes(rest.size)) {
-      const err = new Error('INVALID SIZE INPUT');
-      err.statusCode = 400;
-      throw err;
+      raiseCustomError('INVALID SIZE INPUT', 400);
     }
   } else if (typeof rest.size === 'object') {
     const checkSize = rest.size.map((el) => sizeIdSet[el]);
     if (checkSize.includes(undefined)) {
-      const err = new Error('INVALID SIZE INPUT');
-      err.statusCode = 400;
-      throw err;
+      raiseCustomError('INVALID SIZE INPUT', 400);
     }
   }
 
   if (rest.price) {
     if (!Object.keys(priceSet).includes(rest.price)) {
-      const err = new Error('INVALID PRICE INPUT');
-      err.statusCode = 400;
-      throw err;
+      raiseCustomError('INVALID PRICE INPUT', 400);
     }
   }
 
   if (rest.gender) {
     if (!Object.keys(genderSet).includes(rest.gender)) {
-      const err = new Error('INVALID GENDER INPUT');
-      err.statusCode = 400;
-      throw err;
+      raiseCustomError('INVALID GENDER INPUT', 400);
     }
   }
   const sortProducts = (sort) => {
