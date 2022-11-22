@@ -8,7 +8,7 @@ const {
 } = require('../controllers/cartsController');
 const { validateAccessToken } = require('../middlewares/validateAccessToken');
 
-cartsRouter.get('/', getCartsController);
+cartsRouter.get('/', validateAccessToken, getCartsController);
 cartsRouter.post('/', validateAccessToken, addItemToCartsController);
 
 module.exports = { cartsRouter };
