@@ -1,7 +1,8 @@
 const express = require('express');
 
-const orderController = require('../controllers/orderController');
+const orderRouter = express.Router();
 
+const orderController = require('../controllers/orderController');
 const { validateAccessToken } = require('../middlewares/validateAccessToken');
 
 orderRouter.get('/', validateAccessToken, orderController.getOrderList);
