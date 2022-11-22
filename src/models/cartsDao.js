@@ -14,7 +14,7 @@ const checkIfSameProduct = async (userId, productOptionId) => {
   return check;
 };
 
-const selectProdcutOptionId = async (productId, sizeId) => {
+const selectProductOptionId = async (productId, sizeId) => {
   const productOptionId = await appDataSource.query(
     `
     SELECT * FROM product_options 
@@ -46,10 +46,24 @@ const addQuantity = async (userId, productOptionId) => {
     SET quantity = quantity + 1 
     WHERE user_id = ? 
     AND 
-    product_option_id = ?;
+    product_option_id = ?
+    AND
+    quantity < 7;
     `,
     [userId, productOptionId]
   );
+};
+
+const selectQuantity = async (userId, productOptionId) => {
+  const quantity = appDataSource.query(
+    `
+    SELECT quantity
+    FROM carts
+    WHERE user_id = ? AND product_option_id = ?;
+    `,
+    [userId, productOptionId]
+  );
+  return quantity;
 };
 
 const getCarts = async (userId) => {
@@ -68,10 +82,23 @@ const getCarts = async (userId) => {
   return product;
 };
 
+const modifyQuantity = async (userId, quantity, productOptionId) => {
+  const modify = await appDataSource.query(
+    `UPDATE carts 
+    SET quantity = ?
+    WHERE user_id = ? AND product_option_id = ?;
+    `,
+    [quantity, userId, productOptionId]
+  );
+  return modify.affectedRows;
+};
+
 module.exports = {
   checkIfSameProduct,
-  selectProdcutOptionId,
+  selectProductOptionId,
   insertProduct,
   getCarts,
   addQuantity,
+  modifyQuantity,
+  selectQuantity,
 };

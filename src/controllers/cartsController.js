@@ -1,6 +1,7 @@
 const {
   addItemToCartsService,
   getCartsService,
+  modifyQuantityService,
 } = require('../services/cartsService');
 
 const addItemToCartsController = async (req, res) => {
@@ -27,4 +28,17 @@ const getCartsController = async (req, res) => {
   }
 };
 
-module.exports = { addItemToCartsController, getCartsController };
+const modifyQuantityController = async (req, res) => {
+  const userId = req.decoded;
+  const { productOptionId } = req.query;
+  const { quantity } = req.body;
+
+  await modifyQuantityService(userId, quantity, productOptionId);
+  return res.end();
+};
+
+module.exports = {
+  addItemToCartsController,
+  getCartsController,
+  modifyQuantityController,
+};
