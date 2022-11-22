@@ -3,7 +3,7 @@ const productRouter = expreess.Router();
 
 const productController = require('../controllers/productController');
 
-productRouter.get('/all', productController.getAllProducts);
+productRouter.get('', productController.getAllProducts);
 productRouter.get('/:productId', productController.loadProductInfo);
 
 module.exports = { productRouter };
