@@ -17,6 +17,7 @@ const createUser = async (name, nickname, password, birth) => {
 const getUserByNickname = async (nickname) => {
   const [user] = await appDataSource.query(
     `SELECT
+      id,
       name,
       nickname,
       password,
@@ -29,4 +30,18 @@ const getUserByNickname = async (nickname) => {
   return user;
 };
 
-module.exports = { createUser, getUserByNickname };
+const getUserByUserId = async (userId) => {
+  const user = await appDataSource.query(
+    `SELECT
+      name,
+      nickname,
+      password,
+      birth
+    FROM users
+    WHERE id = ?`,
+    [userId]
+  );
+  return user;
+};
+
+module.exports = { createUser, getUserByNickname, getUserByUserId };

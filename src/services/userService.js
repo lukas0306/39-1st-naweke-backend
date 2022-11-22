@@ -31,7 +31,6 @@ const validateUser = async (nickname, password) => {
   }
 
   const secretKey = process.env.SECRET_KEY;
-
   const accessToken = jwt.sign(
     {
       data: user.id,
