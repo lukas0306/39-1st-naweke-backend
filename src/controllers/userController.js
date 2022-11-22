@@ -14,7 +14,12 @@ const signUp = async (req, res, next) => {
     validatePassword(password);
 
     await createUser(name, nickname, password, birth);
-    return res.status(201).json({ message: 'User Created' });
+    const accessToken = await validateUser(nickname, password);
+    const result = {
+      message: 'login success',
+      accessToken: accessToken,
+    };
+    return res.status(201).json({ result });
   } catch (err) {
     return res.status(err.statusCode || 400).json({ message: err.message });
   }

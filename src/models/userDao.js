@@ -1,7 +1,7 @@
 const { appDataSource } = require('./dataSource');
 
 const createUser = async (name, nickname, password, birth) => {
-  await appDataSource.query(
+  const user = await appDataSource.query(
     `INSERT INTO users(
       name,
       nickname,
@@ -11,6 +11,7 @@ const createUser = async (name, nickname, password, birth) => {
     `,
     [name, nickname, password, birth]
   );
+  return user;
 };
 
 const getUserByNickname = async (nickname) => {
