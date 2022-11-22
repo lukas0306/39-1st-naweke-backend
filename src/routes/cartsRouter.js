@@ -7,9 +7,10 @@ const {
   getCartsController,
   deleteProductController,
 } = require('../controllers/cartsController');
+const { validateAccessToken } = require('../middlewares/validateAccessToken');
 
-cartsRouter.post('/', addItemToCartsController);
-cartsRouter.get('/', getCartsController);
-cartsRouter.delete('/delete', deleteProductController);
+cartsRouter.get('/', validateAccessToken, getCartsController);
+cartsRouter.post('/', validateAccessToken, addItemToCartsController);
+cartsRouter.delete('/delete', validateAccessToken, deleteProductController);
 
 module.exports = { cartsRouter };

@@ -19,12 +19,12 @@ const addItemToCartsController = async (req, res) => {
 };
 
 const getCartsController = async (req, res) => {
-  const user_id = req.decoded;
+  const userId = req.decoded;
   try {
-    const cartInfo = await getCartsService(user_id);
+    const cartInfo = await getCartsService(userId);
     return res.status(200).json(cartInfo);
   } catch (err) {
-    return res.status(404);
+    return res.status(err.statusCode || 500).json({ message: err.message });
   }
 };
 

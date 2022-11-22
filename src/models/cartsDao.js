@@ -40,10 +40,10 @@ const insertProduct = async (userId, productOptionId) => {
   );
 };
 
-const getProduct = async (userId) => {
+const getCarts = async (userId) => {
   const product = await appDataSource.query(
     `
-    SELECT p.name name, p.thumbnail_image_url, po.price, c.name color, s.name size, carts.quantity, po.id product_option_id
+    SELECT p.name productName, p.thumbnail_image_url thumbnailImageUrl, po.price, c.name colorName, s.name sizeName, carts.quantity, po.id productOptionId
     FROM carts 
     LEFT JOIN product_options po ON carts.product_option_id = po.id 
     LEFT JOIN products p ON po.product_id = p.id 
@@ -85,7 +85,7 @@ module.exports = {
   checkIfSameProduct,
   selectProdcutOptionId,
   insertProduct,
-  getProduct,
   deleteProduct,
+  getCarts,
   addQuantity,
 };
