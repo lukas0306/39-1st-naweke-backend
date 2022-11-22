@@ -7,7 +7,7 @@ const checkIfSameProduct = async (userId, productOptionId) => {
         SELECT EXISTS
         (SELECT * FROM carts
         WHERE user_id = ? AND product_option_id = ?)
-        AS 'check_product';
+        AS 'checkProduct';
         `,
     [userId, productOptionId]
   );

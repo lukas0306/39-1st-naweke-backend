@@ -13,7 +13,7 @@ const addItemToCartsService = async (userId, productId, sizeId) => {
   const productOptionId = select[0].id;
   const check = await checkIfSameProduct(userId, productOptionId);
   const checkQuantity = await selectQuantity(userId, productOptionId);
-  if (check[0].check_product == 0) {
+  if (check[0].checkProduct == 0) {
     await insertProduct(userId, productOptionId);
     return true;
   }
@@ -31,8 +31,19 @@ const getCartsService = async (userId) => {
 };
 
 const modifyQuantityService = async (userId, quantity, productOptionId) => {
+  if (quantity > 7) {
+    const err = new Error('max quantity is 7');
+    err.statusCode = 400;
+    throw err;
+  }
+
+  const check = await checkIfSameProduct(userId, productOptionId);
+  if (check[0].checkProduct == 0) {
+    const err = new Error('no product in carts');
+    err.statusCode = 400;
+    throw err;
+  }
   return await modifyQuantity(userId, quantity, productOptionId);
-  // selectQuantity 사용 검증 - 7이하로
 };
 
 module.exports = {

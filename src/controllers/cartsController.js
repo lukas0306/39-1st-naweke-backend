@@ -32,9 +32,12 @@ const modifyQuantityController = async (req, res) => {
   const userId = req.decoded;
   const { productOptionId } = req.query;
   const { quantity } = req.body;
-
-  await modifyQuantityService(userId, quantity, productOptionId);
-  return res.end();
+  try {
+    await modifyQuantityService(userId, quantity, productOptionId);
+    return res.status(200).json({ message: 'product quantity modified' });
+  } catch (err) {
+    return res.status(err.statusCode || 500).json({ message: err.message });
+  }
 };
 
 module.exports = {
