@@ -4,7 +4,6 @@ const { getUserByUserId } = require('../models/userDao');
 const validateAccessToken = async (req, res, next) => {
   try {
     const accessToken = req.header('Authorization');
-    console.log(accessToken);
     const secretKey = process.env.SECRET_KEY;
     const payLoad = jwt.verify(accessToken, secretKey);
     const userId = payLoad.data;
