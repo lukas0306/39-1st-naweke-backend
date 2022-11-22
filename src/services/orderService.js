@@ -1,20 +1,7 @@
 const orderDao = require('../models/orderDao');
+const { orderStatus, orderItemStatus } = require('../enum');
 
 const orderProcess = async (userId, totalPrice) => {
-  const orderStatus = {
-    COMPLETED: 1,
-    CANCELLED: 2,
-  };
-
-  const orderItemStatus = {
-    DELIVERYPREPARE: 1,
-    ONDELIVERY: 2,
-    DELIVERYCOMPLETED: 3,
-  };
-
-  Object.freeze(orderStatus);
-  Object.freeze(orderItemStatus);
-
   const createdOrder = await orderDao.createOrder(
     userId,
     orderStatus.COMPLETED,
