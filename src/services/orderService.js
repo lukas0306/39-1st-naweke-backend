@@ -1,6 +1,10 @@
 const orderDao = require('../models/orderDao');
 const { orderStatus, orderItemStatus } = require('../enum');
 
+const readOrderList = async (userId) => {
+  return await orderDao.readOrderList(userId);
+};
+
 const orderProcess = async (userId, orderArr, totalPrice) => {
   const createdOrder = await orderDao.createOrder(
     userId,
@@ -17,4 +21,4 @@ const orderProcess = async (userId, orderArr, totalPrice) => {
   await orderDao.deleteOrderedItemsInCarts(userId);
 };
 
-module.exports = { orderProcess };
+module.exports = { readOrderList, orderProcess };

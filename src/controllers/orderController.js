@@ -1,3 +1,15 @@
+const { readOrderList } = require('../services/orderService');
+
+const getOrderList = async (req, res, next) => {
+  try {
+    const userId = req.decoded;
+    const orderList = await readOrderList(userId);
+    return res.status(200).json({ orderList });
+  } catch (err) {
+    return res.status(err.statusCode || 400).json({ message: err.message });
+  }
+};
+
 const { orderProcess } = require('../services/orderService');
 
 const addOrder = async (req, res, next) => {
@@ -11,4 +23,4 @@ const addOrder = async (req, res, next) => {
   }
 };
 
-module.exports = { addOrder };
+module.exports = { getOrderList, addOrder };
