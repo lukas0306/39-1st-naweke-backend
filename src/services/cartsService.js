@@ -26,12 +26,13 @@ const getCartsService = async (userId) => {
 };
 
 const deleteProductService = async (userId, productOptionId) => {
-  console.log(productOptionId);
   const ifDeleted = await deleteProduct(userId, productOptionId);
   if (ifDeleted == 0) {
-    return false;
+    const err = new Error('product is not in carts');
+    err.status = 400;
+    throw err;
   }
-  return true;
+  return 'deleted';
 };
 
 module.exports = {

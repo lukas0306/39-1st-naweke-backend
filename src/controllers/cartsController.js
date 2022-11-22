@@ -19,8 +19,7 @@ const addItemToCartsController = async (req, res) => {
 };
 
 const getCartsController = async (req, res) => {
-  // const userId = req.decoded;
-  const { user_id } = req.headers;
+  const user_id = req.decoded;
   try {
     const cartInfo = await getCartsService(user_id);
     return res.status(200).json(cartInfo);
@@ -30,16 +29,15 @@ const getCartsController = async (req, res) => {
 };
 
 const deleteProductController = async (req, res) => {
-  const { productOptionId } = req.query;
-  const userId = req.decoded;
+  const { product_option_id } = req.query;
+  const user_id = req.decoded;
   try {
-    const ifDeleted = await deleteProductService(userId, productOptionId);
-    if (!ifDeleted) {
-      return res.status(400).json({ message: 'product is not in carts' });
+    for (const ele of product_option_id) {
+      await deleteProductService(user_id, Number(ele));
     }
     return res.status(200).json({ message: 'product deleted' });
   } catch (err) {
-    return res.status(400);
+    return res.status(err.status).json({ message: err.message });
   }
 };
 
