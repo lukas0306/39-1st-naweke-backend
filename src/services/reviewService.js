@@ -32,11 +32,6 @@ const getReview = async (reviewId) => {
   return reviewData;
 };
 
-const getAllReivews = async (userId) => {
-  const userReviewData = await reviewDao.getAllReivews(userId);
-  return userReviewData;
-};
-
 const patchReview = async (
   title,
   content,
@@ -59,5 +54,4 @@ module.exports = {
   deleteReview,
   getReview,
   patchReview,
-  getAllReivews,
 };

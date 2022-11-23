@@ -81,28 +81,6 @@ const getReview = async (reviewId) => {
   }
 };
 
-const getAllReivews = async (userId) => {
-  try {
-    const result = await appDataSource.query(
-      `
-      SELECT
-        r.title,
-        r.content,
-        r.image_url,
-        r.score,
-        p.name AS productName
-      FROM reviews r
-      INNER JOIN products p ON p.id = r.product_id
-      WHERE r.user_id = ?
-    `,
-      [userId]
-    );
-    return result;
-  } catch (err) {
-    raiseError.raiseDatabaseError(err);
-  }
-};
-
 const updateReview = async (
   title,
   content,
@@ -135,5 +113,4 @@ module.exports = {
   deleteReview,
   getReview,
   updateReview,
-  getAllReivews,
 };

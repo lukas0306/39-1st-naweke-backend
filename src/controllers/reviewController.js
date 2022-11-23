@@ -39,16 +39,6 @@ const getReview = async (req, res) => {
   }
 };
 
-const getAllReivews = async (req, res) => {
-  const userId = req.decoded;
-  try {
-    const reviewData = await reviewService.getAllReivews(userId);
-    res.status(200).json({ reviewData });
-  } catch (err) {
-    res.status(err.statusCode || 400).json({ message: err.message });
-  }
-};
-
 const patchReview = async (req, res) => {
   const { productId, title, content, imageUrl, score } = req.body;
   const userId = req.decoded;
@@ -72,5 +62,4 @@ module.exports = {
   deleteReview,
   getReview,
   patchReview,
-  getAllReivews,
 };
