@@ -32,9 +32,7 @@ const deleteProduct = async (req, res) => {
   const productOptionIds = req.query.productOptionId;
   const userId = req.decoded;
   try {
-    for (const ele of productOptionIds) {
-      await cartsService.deleteProduct(userId, Number(ele));
-    }
+    await cartsService.deleteProduct(userId, productOptionIds);
     return res.status(200).json({ message: 'product deleted' });
   } catch (err) {
     return res.status(err.status).json({ message: err.message });

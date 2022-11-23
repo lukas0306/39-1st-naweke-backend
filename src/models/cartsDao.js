@@ -56,15 +56,15 @@ const getCarts = async (userId) => {
   return product;
 };
 
-const deleteCart = async (userId, productOptionId) => {
+const deleteCart = async (userId, productOptionIds) => {
   const ifDeleted = await appDataSource.query(
     `
     DELETE FROM carts 
     WHERE user_id=?
     AND
-    product_option_id=?
+    product_option_id IN (?)
     `,
-    [userId, productOptionId]
+    [userId, productOptionIds]
   );
   return ifDeleted.affectedRows;
 };

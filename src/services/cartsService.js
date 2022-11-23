@@ -18,14 +18,13 @@ const getCarts = async (userId) => {
   return await cartsDao.getCarts(userId);
 };
 
-const deleteProduct = async (userId, productOptionId) => {
-  const ifDeleted = await cartsDao.deleteCart(userId, productOptionId);
-  if (ifDeleted == 0) {
+const deleteProduct = async (userId, productOptionIds) => {
+  const result = await cartsDao.deleteCart(userId, productOptionIds);
+  if (result == 0) {
     const err = new Error('product is not in carts');
     err.status = 400;
     throw err;
   }
-  return 'deleted';
 };
 
 module.exports = {
