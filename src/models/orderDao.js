@@ -49,18 +49,14 @@ const createOrder = async (userId, orderArr, totalPrice) => {
       [userId, orderStatus.COMPLETED, totalPrice]
     );
 
-    let values = [];
-    const valuesQuery = (arr, pushedArr) => {
-      arr.map((obj) => {
-        pushedArr.push(
-          `(${order.insertId}, ${
-            orderItemStatus.DELIVERYCOMPLETED
-          }, ${Object.values(obj)})`
-        );
+    const valuesQuery = (data) => {
+      return data.map((obj) => {
+        return `(${order.insertId}, ${
+          orderItemStatus.DELIVERYCOMPLETED
+        }, ${Object.values(obj)})`;
       });
-      return pushedArr;
     };
-    values = valuesQuery(orderArr, values).join(',');
+    const valueSet = valuesQuery(orderArr).join(',');
 
     await queryRunner.query(
       `
@@ -70,7 +66,7 @@ const createOrder = async (userId, orderArr, totalPrice) => {
         product_option_id,
         quantity
       ) VALUES
-        ${values}
+        ${valueSet}
       `
     );
 
@@ -81,27 +77,28 @@ const createOrder = async (userId, orderArr, totalPrice) => {
       [userId]
     );
 
-    let productOptionIdArr = [];
-    let quantityArr = [];
-    let queryString = ``;
-    const queryMap = (arr, productOpitonIdArr, quantityArr) => {
-      arr.map((obj) => {
-        productOpitonIdArr.push(Object.values(obj)[0]);
-        quantityArr.push(Object.values(obj)[1]);
+    const conditionQuery = (data, i) => {
+      return data.map((obj) => {
+        return Object.values(obj)[i];
       });
     };
-    queryMap(orderArr, productOptionIdArr, quantityArr);
+    const productOptionIdArr = conditionQuery(orderArr, 0);
+    const quantityArr = conditionQuery(orderArr, 1);
+
+    let queryString = ``;
 
     for (let i = 0; i < productOptionIdArr.length; i++) {
       queryString += ` WHEN ${productOptionIdArr[i]} THEN stock - ${quantityArr[i]}\n`;
     }
-    queryString += ` END)\n WHERE id IN (${productOptionIdArr})`;
-    values = queryString;
 
-    const a = await queryRunner.query(
+    queryString += ` END)\n WHERE id IN (${productOptionIdArr})`;
+
+    const querySet = queryString;
+
+    await queryRunner.query(
       `
       UPDATE product_options
-      SET stock = (CASE id ${values}
+      SET stock = (CASE id ${querySet}
       `
     );
     await queryRunner.commitTransaction();
