@@ -11,7 +11,7 @@ cartsRouter.delete('/', validateAccessToken, cartsController.deleteCart);
 cartsRouter.patch(
   '/:cartId',
   validateAccessToken,
-  cartsController.modifyQuantityController
+  cartsController.modifyQuantity
 );
 
 module.exports = { cartsRouter };
