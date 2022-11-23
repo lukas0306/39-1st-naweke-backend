@@ -57,9 +57,20 @@ const patchReview = async (req, res) => {
   }
 };
 
+const getAllReivews = async (req, res) => {
+  const userId = req.decoded;
+  try {
+    const reviewData = await reviewService.getAllReivews(userId);
+    res.status(200).json({ reviewData });
+  } catch (err) {
+    res.status(err.statusCode || 400).json({ message: err.message });
+  }
+};
+
 module.exports = {
   postReview,
   deleteReview,
   getReview,
   patchReview,
+  getAllReivews,
 };

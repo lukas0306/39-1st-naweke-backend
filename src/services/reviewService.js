@@ -49,9 +49,16 @@ const patchReview = async (
     productId
   );
 };
+
+const getAllReivews = async (userId) => {
+  const userReviewData = await reviewDao.getAllReivews(userId);
+  return userReviewData;
+};
+
 module.exports = {
   postReview,
   deleteReview,
   getReview,
   patchReview,
+  getAllReivews,
 };
