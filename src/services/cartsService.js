@@ -18,8 +18,8 @@ const getCarts = async (userId) => {
   return await cartsDao.getCarts(userId);
 };
 
-const deleteCart = async (userId, productOptionIds) => {
-  const result = await cartsDao.deleteCart(userId, productOptionIds);
+const deleteCart = async (userId, cartIds) => {
+  const result = await cartsDao.deleteCart(userId, cartIds);
   if (result == 0) {
     const err = new Error('product is not in carts');
     err.status = 400;

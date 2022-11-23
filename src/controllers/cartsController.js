@@ -25,10 +25,10 @@ const getCarts = async (req, res) => {
 };
 
 const deleteCart = async (req, res) => {
-  const productOptionIds = req.query.productOptionId;
+  const cartIds = req.body.cartId;
   const userId = req.decoded;
   try {
-    await cartsService.deleteCart(userId, productOptionIds);
+    await cartsService.deleteCart(userId, cartIds);
     return res.status(200).json({ message: 'cart deleted' });
   } catch (err) {
     return res.status(err.status).json({ message: err.message });

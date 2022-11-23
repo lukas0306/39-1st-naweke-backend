@@ -43,7 +43,7 @@ const insertProduct = async (userId, productOptionId) => {
 const getCarts = async (userId) => {
   const product = await appDataSource.query(
     `
-    SELECT p.name productName, p.thumbnail_image_url thumbnailImageUrl, po.price, c.name colorName, s.name sizeName, carts.quantity, po.id productOptionId
+    SELECT p.name productName, p.thumbnail_image_url thumbnailImageUrl, po.price, c.name colorName, s.name sizeName, carts.quantity, po.id productOptionId, carts.id cartId
     FROM carts 
     LEFT JOIN product_options po ON carts.product_option_id = po.id 
     LEFT JOIN products p ON po.product_id = p.id 
@@ -56,15 +56,15 @@ const getCarts = async (userId) => {
   return product;
 };
 
-const deleteCart = async (userId, productOptionIds) => {
+const deleteCart = async (userId, cartIds) => {
   const ifDeleted = await appDataSource.query(
     `
     DELETE FROM carts 
     WHERE user_id=?
     AND
-    product_option_id IN (?)
+    id IN (?)
     `,
-    [userId, productOptionIds]
+    [userId, cartIds]
   );
   return ifDeleted.affectedRows;
 };
