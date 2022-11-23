@@ -48,6 +48,7 @@ const readProductInfo = async (productId) => {
     (SELECT
         JSON_ARRAYAGG(
           JSON_OBJECT(
+            "id", r.id,
             "nickname", u.nickname,
             "title", r.title,
             "content", r.content,
