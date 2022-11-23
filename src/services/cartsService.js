@@ -1,24 +1,16 @@
-const {
-  selectProductOptionId,
-  checkIfSameProduct,
-  insertProduct,
-  getCarts,
-  addQuantity,
-  modifyQuantity,
-  selectQuantity,
-} = require('../models/cartsDao');
+const cartsDao = require('../models/cartsDao');
 
-const addItemToCartsService = async (userId, productId, sizeId) => {
-  const select = await selectProductOptionId(productId, sizeId);
+const addItemToCarts = async (userId, productId, sizeId) => {
+  const select = await cartsDao.selectProductOptionId(productId, sizeId);
   const productOptionId = select[0].id;
-  const check = await checkIfSameProduct(userId, productOptionId);
-  const checkQuantity = await selectQuantity(userId, productOptionId);
+  const check = await cartsDao.checkIfSameProduct(userId, productOptionId);
+  const checkQuantity = await cartsDao.selectQuantity(userId, productOptionId);
   if (check[0].checkProduct == 0) {
-    await insertProduct(userId, productOptionId);
+    await cartsDao.insertProduct(userId, productOptionId);
     return true;
   }
   if (checkQuantity[0].quantity < 7) {
-    await addQuantity(userId, productOptionId);
+    await cartsDao.addQuantity(userId, productOptionId);
     return true;
   }
   const err = new Error('Can not add product more then 7');
@@ -26,33 +18,50 @@ const addItemToCartsService = async (userId, productId, sizeId) => {
   throw err;
 };
 
-const getCartsService = async (userId) => {
-  return await getCarts(userId);
+// const addItemToCarts = async (userId, productId, sizeId) => {
+//   const select = await cartsDao.selectProdcutOptionId(productId, sizeId);
+//   const productOptionId = select[0].id;
+//   const check = await cartsDao.checkIfSameProduct(userId, productOptionId);
+
+//   if (check[0].check_product == 0) {
+//     await cartsDao.insertProduct(userId, productOptionId);
+//     return true;
+//   }
+
+//   await cartsDao.addQuantity(userId, productOptionId);
+//   return false;
+// };
+
+const getCarts = async (userId) => {
+  return await cartsDao.getCarts(userId);
 };
 
-const modifyQuantityService = async (userId, quantity, cartId) => {
+const modifyQuantity = async (userId, quantity, cartId) => {
   if (quantity > 7) {
     const err = new Error('max quantity is 7');
     err.statusCode = 400;
     throw err;
   }
 
-  // const check = await checkIfSameProduct(userId, productOptionId);
-  // if (check[0].checkProduct == 0) {
-  //   const err = new Error('no product in carts');
-  //   err.statusCode = 400;
-  //   throw err;
-  // }
-  const result = await modifyQuantity(userId, quantity, cartId);
+  const result = await cartsDao.modifyQuantity(userId, quantity, cartId);
   if (result === 0) {
     const err = new Error('no product in carts');
     err.statusCode = 400;
+  }
+};
+
+const deleteCart = async (userId, cartIds) => {
+  const result = await cartsDao.deleteCart(userId, cartIds);
+  if (result == 0) {
+    const err = new Error('product is not in carts');
+    err.status = 400;
     throw err;
   }
 };
 
 module.exports = {
-  addItemToCartsService,
-  getCartsService,
-  modifyQuantityService,
+  addItemToCarts,
+  getCarts,
+  deleteCart,
+  modifyQuantity,
 };

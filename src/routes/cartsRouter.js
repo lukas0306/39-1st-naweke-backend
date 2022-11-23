@@ -2,15 +2,16 @@ const express = require('express');
 
 const cartsRouter = express.Router();
 
-const {
-  addItemToCartsController,
-  getCartsController,
-  modifyQuantityController,
-} = require('../controllers/cartsController');
+const cartsController = require('../controllers/cartsController');
 const { validateAccessToken } = require('../middlewares/validateAccessToken');
 
-cartsRouter.get('/', validateAccessToken, getCartsController);
-cartsRouter.post('/', validateAccessToken, addItemToCartsController);
-cartsRouter.patch('/:cartId', validateAccessToken, modifyQuantityController);
+cartsRouter.get('/', validateAccessToken, cartsController.getCarts);
+cartsRouter.post('/', validateAccessToken, cartsController.addItemToCarts);
+cartsRouter.delete('/', validateAccessToken, cartsController.deleteCart);
+cartsRouter.patch(
+  '/:cartId',
+  validateAccessToken,
+  cartsController.modifyQuantityController
+);
 
 module.exports = { cartsRouter };
