@@ -65,4 +65,21 @@ const readProductInfo = async (productId) => {
   return productInfo;
 };
 
-module.exports = { getProductList, readProductInfo };
+const getReviewId = async (productId) => {
+  try {
+    await appDataSource.query(
+      `
+        SELECT
+          products.id
+        FROM products
+        WHERE products.id = ?
+      `,
+      [productId]
+    );
+    checkId;
+  } catch (err) {
+    raiseError.raiseDatabaseError();
+  }
+};
+
+module.exports = { getProductList, readProductInfo, getReviewId };

@@ -1,26 +1,63 @@
 const reviewDao = require('../models/reviewDao');
+const { raiseCustomError } = require('../utils/raiseError');
 
-const postReview = async (userId, productId, title, content, image_url) => {
-  const checkId = await reviewDao.getReviewId(productId);
-  if (!checkId) {
-    const err = new Error('상품이 존재하지 않습니다.');
-    err.statusCode = 400;
-    throw err;
+const postReview = async (
+  userId,
+  productId,
+  title,
+  content,
+  score,
+  imageUrl
+) => {
+  const Existence = await reviewDao.checkExistence(userId, productId);
+  if (Existence.existence === '1') {
+    raiseCustomError('이미 리뷰한 제품입니다.', 400);
   }
-
-  const reviewData = await reviewDao.checkExistence(userId, productId);
-  const checkList = Number(reviewData?.checkList);
-  if (checkList === 1) {
-    const err = new Error('이미 리뷰한 상품입니다.');
-    err.statusCode = 400;
-    throw err;
-  } else {
-    await reviewDao.postReview(userId, productId, title, content, image_url);
-  }
+  await reviewDao.postReview(
+    userId,
+    productId,
+    title,
+    content,
+    score,
+    imageUrl
+  );
 };
 
-const cancelReview = async (userId, productId) => {
-  await reviewDao.cancelReview(userId, productId);
+const deleteReview = async (userId, productId) => {
+  await reviewDao.deleteReview(userId, productId);
 };
 
-module.exports = { postReview, cancelReview };
+const getReview = async (reviewId) => {
+  const reviewData = await reviewDao.getReview(reviewId);
+  return reviewData;
+};
+
+const getAllReivews = async (userId) => {
+  const userReviewData = await reviewDao.getAllReivews(userId);
+  return userReviewData;
+};
+
+const patchReview = async (
+  title,
+  content,
+  imageUrl,
+  score,
+  userId,
+  productId
+) => {
+  return await reviewDao.updateReview(
+    title,
+    content,
+    imageUrl,
+    score,
+    userId,
+    productId
+  );
+};
+module.exports = {
+  postReview,
+  deleteReview,
+  getReview,
+  patchReview,
+  getAllReivews,
+};
