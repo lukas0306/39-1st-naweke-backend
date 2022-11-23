@@ -56,7 +56,7 @@ const getCarts = async (userId) => {
   return product;
 };
 
-const deleteProduct = async (userId, productOptionId) => {
+const deleteCart = async (userId, productOptionId) => {
   const ifDeleted = await appDataSource.query(
     `
     DELETE FROM carts 
@@ -85,7 +85,7 @@ module.exports = {
   checkIfSameProduct,
   selectProdcutOptionId,
   insertProduct,
-  deleteProduct,
+  deleteCart,
   getCarts,
   addQuantity,
 };
