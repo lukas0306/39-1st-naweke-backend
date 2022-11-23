@@ -31,7 +31,7 @@ const readOrderList = async (userId) => {
   return orderList;
 };
 
-const createOrder = async (userId, orderArr, totalPrice) => {
+const createOrder = async (userId, orderItems, totalPrice) => {
   const queryRunner = appDataSource.createQueryRunner();
 
   await queryRunner.connect();
@@ -56,7 +56,7 @@ const createOrder = async (userId, orderArr, totalPrice) => {
         }, ${Object.values(obj)})`;
       });
     };
-    const valueSet = valuesQuery(orderArr).join(',');
+    const valueSet = valuesQuery(orderItems).join(',');
 
     await queryRunner.query(
       `
@@ -77,13 +77,13 @@ const createOrder = async (userId, orderArr, totalPrice) => {
       [userId]
     );
 
-    const conditionQuery = (data, i) => {
+    const buildUpdateQuery = (data, i) => {
       return data.map((obj) => {
         return Object.values(obj)[i];
       });
     };
-    const productOptionIdArr = conditionQuery(orderArr, 0);
-    const quantityArr = conditionQuery(orderArr, 1);
+    const productOptionIdArr = buildUpdateQuery(orderItems, 0);
+    const quantityArr = buildUpdateQuery(orderItems, 1);
 
     let queryString = ``;
 

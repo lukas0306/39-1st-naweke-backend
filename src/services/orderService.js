@@ -4,8 +4,12 @@ const readOrderList = async (userId) => {
   return await orderDao.readOrderList(userId);
 };
 
-const createOrder = async (userId, orderArr, totalPrice) => {
-  const createdOrder = await orderDao.createOrder(userId, orderArr, totalPrice);
+const createOrder = async (userId, orderItems, totalPrice) => {
+  const createdOrder = await orderDao.createOrder(
+    userId,
+    orderItems,
+    totalPrice
+  );
   return createdOrder;
 };
 
