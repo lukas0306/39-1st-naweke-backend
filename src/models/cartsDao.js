@@ -40,22 +40,10 @@ const insertProduct = async (userId, productOptionId) => {
   );
 };
 
-const addQuantity = async (userId, productOptionId) => {
-  await appDataSource.query(
-    `UPDATE carts 
-    SET quantity = quantity + 1 
-    WHERE user_id = ? 
-    AND 
-    product_option_id = ?;
-    `,
-    [userId, productOptionId]
-  );
-};
-
 const getCarts = async (userId) => {
   const product = await appDataSource.query(
     `
-    SELECT p.name productName, p.thumbnail_image_url thumbnailImageUrl, po.price, c.name colorName, s.name sizeName, carts.quantity, po.id productOptionId
+    SELECT p.name productName, p.thumbnail_image_url thumbnailImageUrl, po.price, c.name colorName, s.name sizeName, carts.quantity, po.id productOptionId, carts.id cartId
     FROM carts 
     LEFT JOIN product_options po ON carts.product_option_id = po.id 
     LEFT JOIN products p ON po.product_id = p.id 
@@ -68,10 +56,36 @@ const getCarts = async (userId) => {
   return product;
 };
 
+const deleteCart = async (userId, cartIds) => {
+  const ifDeleted = await appDataSource.query(
+    `
+    DELETE FROM carts 
+    WHERE user_id=?
+    AND
+    id IN (?)
+    `,
+    [userId, cartIds]
+  );
+  return ifDeleted.affectedRows;
+};
+
+const addQuantity = async (userId, productOptionId) => {
+  await appDataSource.query(
+    `UPDATE carts 
+    SET quantity = quantity + 1 
+    WHERE user_id = ? 
+    AND 
+    product_option_id = ?;
+    `,
+    [userId, productOptionId]
+  );
+};
+
 module.exports = {
   checkIfSameProduct,
   selectProdcutOptionId,
   insertProduct,
+  deleteCart,
   getCarts,
   addQuantity,
 };
