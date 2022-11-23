@@ -18,7 +18,7 @@ const getCarts = async (userId) => {
   return await cartsDao.getCarts(userId);
 };
 
-const deleteProduct = async (userId, productOptionIds) => {
+const deleteCart = async (userId, productOptionIds) => {
   const result = await cartsDao.deleteCart(userId, productOptionIds);
   if (result == 0) {
     const err = new Error('product is not in carts');
@@ -30,5 +30,5 @@ const deleteProduct = async (userId, productOptionIds) => {
 module.exports = {
   addItemToCarts,
   getCarts,
-  deleteProduct,
+  deleteCart,
 };
