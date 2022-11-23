@@ -82,13 +82,13 @@ const getCarts = async (userId) => {
   return product;
 };
 
-const modifyQuantity = async (userId, quantity, productOptionId) => {
+const modifyQuantity = async (userId, quantity, cartId) => {
   const modify = await appDataSource.query(
     `UPDATE carts 
     SET quantity = ?
-    WHERE user_id = ? AND product_option_id = ?;
+    WHERE user_id = ? AND id = ?;
     `,
-    [quantity, userId, productOptionId]
+    [quantity, userId, cartId]
   );
   return modify.affectedRows;
 };

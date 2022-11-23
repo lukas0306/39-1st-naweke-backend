@@ -30,20 +30,25 @@ const getCartsService = async (userId) => {
   return await getCarts(userId);
 };
 
-const modifyQuantityService = async (userId, quantity, productOptionId) => {
+const modifyQuantityService = async (userId, quantity, cartId) => {
   if (quantity > 7) {
     const err = new Error('max quantity is 7');
     err.statusCode = 400;
     throw err;
   }
 
-  const check = await checkIfSameProduct(userId, productOptionId);
-  if (check[0].checkProduct == 0) {
+  // const check = await checkIfSameProduct(userId, productOptionId);
+  // if (check[0].checkProduct == 0) {
+  //   const err = new Error('no product in carts');
+  //   err.statusCode = 400;
+  //   throw err;
+  // }
+  const result = await modifyQuantity(userId, quantity, cartId);
+  if (result === 0) {
     const err = new Error('no product in carts');
     err.statusCode = 400;
     throw err;
   }
-  return await modifyQuantity(userId, quantity, productOptionId);
 };
 
 module.exports = {
