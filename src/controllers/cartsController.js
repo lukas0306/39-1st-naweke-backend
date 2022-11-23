@@ -29,7 +29,7 @@ const modifyQuantity = async (req, res) => {
   const { cartId } = req.params;
   const { quantity } = req.body;
   try {
-    await cartsService.modifyQuantityService(userId, quantity, cartId);
+    await cartsService.modifyQuantity(userId, quantity, cartId);
     return res.status(200).json({ message: 'product quantity modified' });
   } catch (err) {
     return res.status(err.statusCode || 500).json({ message: err.message });
