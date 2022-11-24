@@ -1,12 +1,12 @@
-const priceSet = {
+const priceSet = Object.freeze({
   1: [0, 50000],
   2: [50000, 100000],
   3: [100000, 150000],
   4: [150000, 200000],
   5: 200000,
-};
+});
 
-const colorIdSet = {
+const colorIdSet = Object.freeze({
   white: 1,
   black: 2,
   grey: 3,
@@ -14,9 +14,9 @@ const colorIdSet = {
   yellow: 5,
   red: 6,
   blue: 7,
-};
+});
 
-const sizeIdSet = {
+const sizeIdSet = Object.freeze({
   XS: 1,
   S: 2,
   M: 3,
@@ -32,16 +32,8 @@ const sizeIdSet = {
   290: 13,
   300: 14,
   FREE: 15,
-};
+});
 
-const genderSet = {
-  man: 1,
-  woman: 2,
-};
-
-Object.freeze(priceSet);
-Object.freeze(colorIdSet);
-Object.freeze(sizeIdSet);
-Object.freeze(genderSet);
+const genderSet = Object.freeze({ man: 1, woman: 2 });
 
 module.exports = { priceSet, colorIdSet, sizeIdSet, genderSet };
