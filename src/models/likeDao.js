@@ -1,25 +1,6 @@
 const { appDataSource } = require('../models/dataSource');
 
-const getProductId = async (productId) => {
-  try {
-    const [checkId] = await appDataSource.query(
-      `
-        SELECT
-          products.id
-        FROM products
-        WHERE products.id = ?
-      `,
-      [productId]
-    );
-    return checkId;
-  } catch (err) {
-    const error = new Error('INVALID_DATA_INPUT');
-    error.statusCode = 500;
-    throw error;
-  }
-};
-
-const checkExistence = async (userId, productId) => {
+const getLike = async (userId, productId) => {
   try {
     const [likeData] = await appDataSource.query(
       `SELECT EXISTS(
@@ -49,7 +30,6 @@ const createLike = async (userId, productId) => {
       `,
       [userId, productId]
     );
-    console.log('like');
   } catch (err) {
     const error = new Error('INVALID_DATA_INPUT');
     error.statusCode = 500;
@@ -57,7 +37,7 @@ const createLike = async (userId, productId) => {
   }
 };
 
-const cancelpostLike = async (userId, productId) => {
+const deleteLike = async (userId, productId) => {
   try {
     await appDataSource.query(
       `
@@ -67,7 +47,6 @@ const cancelpostLike = async (userId, productId) => {
       `,
       [userId, productId]
     );
-    console.log('cancel');
   } catch (err) {
     const error = new Error('INVALID_DATA_INPUT');
     error.statusCode = 500;
@@ -75,4 +54,4 @@ const cancelpostLike = async (userId, productId) => {
   }
 };
 
-module.exports = { getProductId, checkExistence, createLike, cancelpostLike };
+module.exports = { getLike, createLike, deleteLike };
