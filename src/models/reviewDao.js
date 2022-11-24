@@ -112,6 +112,7 @@ const getAllReivews = async (userId) => {
     const result = await appDataSource.query(
       `
       SELECT
+        r.id,
         r.title,
         r.content,
         r.image_url,
