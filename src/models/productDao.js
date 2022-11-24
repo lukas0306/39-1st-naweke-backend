@@ -1,5 +1,24 @@
 const { appDataSource } = require('../models/dataSource');
 
+const getProductId = async (productId) => {
+  try {
+    const [checkId] = await appDataSource.query(
+      `
+        SELECT
+          products.id
+        FROM products
+        WHERE products.id = ?
+      `,
+      [productId]
+    );
+    return checkId;
+  } catch (err) {
+    const error = new Error('INVALID_DATA_INPUT');
+    error.statusCode = 500;
+    throw error;
+  }
+};
+
 const getProductList = async (builders, sort) => {
   try {
     return await appDataSource.query(
@@ -72,4 +91,4 @@ const readProductInfo = async (productId) => {
   return productInfo;
 };
 
-module.exports = { getProductList, readProductInfo };
+module.exports = { getProductList, readProductInfo, getProductId };
