@@ -24,6 +24,18 @@ const getCarts = async (req, res) => {
   }
 };
 
+const modifyQuantity = async (req, res) => {
+  const userId = req.decoded;
+  const { cartId } = req.params;
+  const { quantity } = req.body;
+  try {
+    await cartsService.modifyQuantity(userId, quantity, cartId);
+    return res.status(200).json({ message: 'product quantity modified' });
+  } catch (err) {
+    return res.status(err.statusCode || 500).json({ message: err.message });
+  }
+};
+
 const deleteCart = async (req, res) => {
   const cartIds = req.body.cartId;
   const userId = req.decoded;
@@ -39,4 +51,5 @@ module.exports = {
   addItemToCarts,
   getCarts,
   deleteCart,
+  modifyQuantity,
 };

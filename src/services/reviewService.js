@@ -43,7 +43,8 @@ const patchReview = async (
   userId,
   productId
 ) => {
-  if (!productId) {
+  const Existence = await reviewDao.checkExistence(userId, productId);
+  if (Existence.existence === '0') {
     raiseCustomError('리뷰가 존재하지 않습니다.', 400);
   }
   if (!title && !content && !score && !imageUrl) {

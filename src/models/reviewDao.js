@@ -74,7 +74,6 @@ const getReview = async (reviewId) => {
     `,
       [reviewId]
     );
-    console.log(result);
     return result;
   } catch (err) {
     raiseError.raiseDatabaseError(err);

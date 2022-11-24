@@ -43,7 +43,6 @@ const getReview = async (req, res) => {
 const patchReview = async (req, res) => {
   const { productId, title, content, imageUrl, score } = req.body;
   const userId = req.decoded;
-  console.log('title: ', title, userId, productId);
   try {
     await reviewService.patchReview(
       title,
