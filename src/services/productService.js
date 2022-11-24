@@ -1,6 +1,6 @@
 const productDao = require('../models/productDao');
 const { makeProductQueryBuilders } = require('../utils/productQueryBuilder');
-const { raiseCustomError } = require('../utils/raiseCustomError');
+const { raiseCustomError } = require('../utils/raiseError');
 const {
   colorIdSet,
   sizeIdSet,
