@@ -8,5 +8,10 @@ const { validateAccessToken } = require('../middlewares/validateAccessToken');
 cartsRouter.get('/', validateAccessToken, cartsController.getCarts);
 cartsRouter.post('/', validateAccessToken, cartsController.addItemToCarts);
 cartsRouter.delete('/', validateAccessToken, cartsController.deleteCart);
+cartsRouter.patch(
+  '/:cartId',
+  validateAccessToken,
+  cartsController.modifyQuantity
+);
 
 module.exports = { cartsRouter };
