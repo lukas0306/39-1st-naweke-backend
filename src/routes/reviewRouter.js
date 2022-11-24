@@ -5,7 +5,11 @@ const reviewController = require('../controllers/reviewController');
 reviewRouter.get('', validateAccessToken, reviewController.getAllReivews);
 reviewRouter.get('/:reviewId', validateAccessToken, reviewController.getReview);
 reviewRouter.post('', validateAccessToken, reviewController.postReview);
-reviewRouter.delete('', validateAccessToken, reviewController.deleteReview);
+reviewRouter.delete(
+  '/:productId',
+  validateAccessToken,
+  reviewController.deleteReview
+);
 reviewRouter.patch('', validateAccessToken, reviewController.patchReview);
 
 module.exports = { reviewRouter };

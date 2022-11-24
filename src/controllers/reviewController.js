@@ -19,7 +19,8 @@ const postReview = async (req, res) => {
 };
 
 const deleteReview = async (req, res) => {
-  const { productId } = req.body;
+  const { productId } = req.params;
+  console.log(req.body);
   const userId = req.decoded;
   try {
     await reviewService.deleteReview(userId, productId);
@@ -42,6 +43,7 @@ const getReview = async (req, res) => {
 const patchReview = async (req, res) => {
   const { productId, title, content, imageUrl, score } = req.body;
   const userId = req.decoded;
+  console.log('title: ', title, userId, productId);
   try {
     await reviewService.patchReview(
       title,

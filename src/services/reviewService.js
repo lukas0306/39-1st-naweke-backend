@@ -24,6 +24,9 @@ const postReview = async (
 };
 
 const deleteReview = async (userId, productId) => {
+  if (!productId) {
+    raiseCustomError('리뷰가 존재하지 않습니다.', 400);
+  }
   await reviewDao.deleteReview(userId, productId);
 };
 
@@ -40,6 +43,12 @@ const patchReview = async (
   userId,
   productId
 ) => {
+  if (!productId) {
+    raiseCustomError('리뷰가 존재하지 않습니다.', 400);
+  }
+  if (!title && !content && !score && !imageUrl) {
+    raiseCustomError('수정된 내용이 없습니다.', 400);
+  }
   return await reviewDao.updateReview(
     title,
     content,
