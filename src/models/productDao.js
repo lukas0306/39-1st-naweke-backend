@@ -60,12 +60,19 @@ const readProductInfo = async (productId) => {
     p.thumbnail_image_url image,
     po.price price,
     JSON_ARRAYAGG(po.size_id) size,
-      (SELECT
+    (SELECT
+      AVG(re.score) averageScore
+      FROM reviews re
+      ) averageReviewScore,
+    (SELECT
         JSON_ARRAYAGG(
           JSON_OBJECT(
+            "id", r.id,
             "nickname", u.nickname,
             "title", r.title,
             "content", r.content,
+            "score", r.score,
+            "image", r.image_url,
             "createdAt", r.created_at
           )) reviews
         FROM reviews r

@@ -1,14 +1,11 @@
-const {
-  addItemToCartsService,
-  getCartsService,
-} = require('../services/cartsService');
+const cartsService = require('../services/cartsService');
 
-const addItemToCartsController = async (req, res) => {
+const addItemToCarts = async (req, res) => {
   const { productId, sizeId } = req.body;
   const userId = req.decoded;
   try {
-    const ifAdded = await addItemToCartsService(userId, productId, sizeId);
-    if (ifAdded) {
+    const result = await cartsService.addItemToCarts(userId, productId, sizeId);
+    if (result) {
       return res.status(201).json({ message: 'product is added in carts' });
     }
     return res.status(201).json({ message: 'product quantity added' });
@@ -17,14 +14,29 @@ const addItemToCartsController = async (req, res) => {
   }
 };
 
-const getCartsController = async (req, res) => {
+const getCarts = async (req, res) => {
   const userId = req.decoded;
   try {
-    const cartInfo = await getCartsService(userId);
+    const cartInfo = await cartsService.getCarts(userId);
     return res.status(200).json(cartInfo);
   } catch (err) {
     return res.status(err.statusCode || 500).json({ message: err.message });
   }
 };
 
-module.exports = { addItemToCartsController, getCartsController };
+const deleteCart = async (req, res) => {
+  const cartIds = req.body.cartId;
+  const userId = req.decoded;
+  try {
+    await cartsService.deleteCart(userId, cartIds);
+    return res.status(200).json({ message: 'cart deleted' });
+  } catch (err) {
+    return res.status(err.status).json({ message: err.message });
+  }
+};
+
+module.exports = {
+  addItemToCarts,
+  getCarts,
+  deleteCart,
+};

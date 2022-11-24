@@ -1,4 +1,5 @@
 const { appDataSource } = require('./dataSource');
+const { orderStatus, orderItemStatus } = require('../enum');
 
 const readOrderList = async (userId) => {
   const orderList = await appDataSource.query(
@@ -30,4 +31,86 @@ const readOrderList = async (userId) => {
   return orderList;
 };
 
-module.exports = { readOrderList };
+const createOrder = async (userId, orderItems, totalPrice) => {
+  const queryRunner = appDataSource.createQueryRunner();
+
+  await queryRunner.connect();
+
+  await queryRunner.startTransaction();
+
+  try {
+    const order = await queryRunner.query(
+      `INSERT INTO orders(
+          user_id,
+          order_status_id,
+          total_price
+        ) VALUES ( ?, ?, ?)
+        `,
+      [userId, orderStatus.COMPLETED, totalPrice]
+    );
+
+    const valuesQuery = (data) => {
+      return data.map((obj) => {
+        return `(${order.insertId}, ${
+          orderItemStatus.DELIVERYCOMPLETED
+        }, ${Object.values(obj)})`;
+      });
+    };
+    const valueSet = valuesQuery(orderItems).join(',');
+
+    await queryRunner.query(
+      `
+      INSERT INTO order_items (
+        order_id,
+        order_item_status_id,
+        product_option_id,
+        quantity
+      ) VALUES
+        ${valueSet}
+      `
+    );
+
+    await queryRunner.query(
+      `DELETE FROM carts
+      WHERE user_id = ?
+      `,
+      [userId]
+    );
+
+    const buildUpdateQuery = (data, i) => {
+      return data.map((obj) => {
+        return Object.values(obj)[i];
+      });
+    };
+    const productOptionIdArr = buildUpdateQuery(orderItems, 0);
+    const quantityArr = buildUpdateQuery(orderItems, 1);
+
+    let queryString = ``;
+
+    for (let i = 0; i < productOptionIdArr.length; i++) {
+      queryString += ` WHEN ${productOptionIdArr[i]} THEN stock - ${quantityArr[i]}\n`;
+    }
+
+    queryString += ` END)\n WHERE id IN (${productOptionIdArr})`;
+
+    const querySet = queryString;
+
+    await queryRunner.query(
+      `
+      UPDATE product_options
+      SET stock = (CASE id ${querySet}
+      `
+    );
+    await queryRunner.commitTransaction();
+  } catch (error) {
+    console.log(error);
+    await queryRunner.rollbackTransaction();
+  } finally {
+    await queryRunner.release();
+  }
+};
+
+module.exports = {
+  createOrder,
+  readOrderList,
+};
