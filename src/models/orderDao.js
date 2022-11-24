@@ -70,11 +70,20 @@ const createOrder = async (userId, orderItems, totalPrice) => {
       `
     );
 
+    const buildDeleteQuery = (data) => {
+      return data.map((obj) => {
+        return obj['productOptionId'];
+      });
+    };
+    const orderItemOptionArr = buildDeleteQuery(orderItems);
+
     await queryRunner.query(
       `DELETE FROM carts
       WHERE user_id = ?
+      AND
+      product_option_id IN (?)
       `,
-      [userId]
+      [userId, orderItemOptionArr]
     );
 
     const buildUpdateQuery = (data, i) => {
@@ -103,8 +112,10 @@ const createOrder = async (userId, orderItems, totalPrice) => {
     );
     await queryRunner.commitTransaction();
   } catch (error) {
-    console.log(error);
+    console.log(err);
     await queryRunner.rollbackTransaction();
+    const err = new Error('Transaction Failure');
+    throw err;
   } finally {
     await queryRunner.release();
   }
