@@ -39,4 +39,9 @@ const genderSet = {
   woman: 2,
 };
 
+Object.freeze(priceSet);
+Object.freeze(colorIdSet);
+Object.freeze(sizeIdSet);
+Object.freeze(genderSet);
+
 module.exports = { priceSet, colorIdSet, sizeIdSet, genderSet };
