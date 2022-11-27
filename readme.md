@@ -52,7 +52,7 @@
 |                                              <img width="95px" height="95px" src="https://github.com/account"/>                                               |        <img width="95px" height="95px" src="https://avatars.githubusercontent.com/u/109528794?s=400&u=e3f612ca7399a242d46da3bbe5bb344a1a43746b&v=4"/>        |                                                         <img width="95px" height="95px" src="https://avatars.githubusercontent.com/u/97298721?v=4"/>                                                         |
 | [<img src="https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=GitHub&logoColor=white"/>](https://github.com/lukas0306/39-1st-naweke-backend) | [<img src="https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=GitHub&logoColor=white"/>](https://github.com/myeongseoklee?tab=repositories) | [<img src="https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=GitHub&logoColor=white"/>](https://github.com/applleeee?tab=repositories) |
 
-### Frontend Developer
+### Frontend Developers
 
 [[Frontend github]](https://github.com/wecode-bootcamp-korea/39-1st-naweke-frontend)
 
