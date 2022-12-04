@@ -20,7 +20,7 @@
 
 ### [Products]
 
-- Products List API **(GET)** - 한솔
+### - Products List API **(GET)** - 한솔
 - Product detail information API **(GET)** - 명석
 
 ### [Carts]
@@ -33,11 +33,11 @@
 
 ### [Reviews]
 
-- Reviews API **(POST/GET/PATCH/DELETE)** - 한솔
+### - Reviews API **(POST/GET/PATCH/DELETE)** - 한솔
 
 ### [Likes]
 
-- Likes **(POST,DELETE)** - 한솔
+### - Likes **(POST,DELETE)** - 한솔
 
 ## 개발 기간
 
